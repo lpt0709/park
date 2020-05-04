@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="header">
+<div class="top" id="item4">
+	<div class="container clearfix">
+		<ul class="clearfix fr">
+			<li th:if="${session.LogUser == null}"><a href="/join" >登录</a></li>
+			<li th:if="${session.LogUser != null}">
+			<a id="userN" th:text="${session.LogUser.name}"></a></li>
+			<li th:if="${session.LogUser != null}">
+			<a th:href="@{/user/logout}">退出登录</a>
+			</li>
+			<li th:if="${session.LogUser != null}"><a th:href="@{'/user/user-show?id='+${session.LogUser.id}}" style="border: none">个人中心</a></li>
+		</ul>
+	</div>
+</div>
+</div>
+</html>

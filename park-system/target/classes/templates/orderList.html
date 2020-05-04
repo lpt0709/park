@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/moban/css/index.css}"/>
+    <link rel="stylesheet" th:href="@{/moban/css/table.css}"/>
+	<script th:src="@{/moban/js/jquery-1.11.2.min.js}"></script>
+	<script th:src="@{/moban/js/main.js}"></script>
+	<title>我的订单</title>
+</head>
+<style>
+	.help-main p {
+		line-height: 50px;
+	}
+</style>
+<body >
+
+<span th:replace="/common/head3 :: header"></span>
+
+<div class="help-wrap">
+	<div class="container clearfix">
+		<div class="bread">当前位置：
+			<a href="/index">首页</a> >
+			<a href="#">订单管理</a> >
+			<a href="#">我的订单</a>
+		</div>
+		<span th:replace="/common/userinfo :: userer"></span>
+		<div class="help-r fr">
+			<div class="help-item-title">订单详情</div>
+			<div class="help-main">
+				<table class="table table-hover" th:if="${orderList}">
+				<thead>
+					<tr >
+			        <th>订单编号</th>
+			      	<th>停车位编号</th>
+			      	<th>停车位区域</th>
+			      	<th>停车开始时间</th>
+			      	<th>停车结束时间</th>
+			      	<th>停车费用</th>
+			      	<th>打折后费用</th>
+			        <th>订单状态</th>
+			        <th>操作</th>
+			      </tr>
+			      <tr>
+			        
+			      <tr th:each="order,orderStat : ${orderList}">
+				      <td th:text="${order.id}"></td>
+				      <td th:text="${order.parkNo}"></td>
+				      <td th:text="${order.parkArea}"></td>
+				      <td th:text="${order.startTime}"></td>
+				      <td th:text="${order.endTime}"></td>
+				       <td th:text="${order.price}"></td>
+				       <td th:text="${order.priceDz}"></td>
+				      <td>
+				      	<span th:if="${order.status=='0'}" style="color: black">预约成功</span>
+				      	<span th:if="${order.status=='1'}" style="color: red;">进入未付款</span>
+				      	<span th:if="${order.status=='2'}" style="color: green;">出场已付款</span>
+				      </td>
+				      <td>				 
+				      	<a th:if="${order.status=='0'}"  th:href="@{'/order/jiesuan?id='+${order.id}}">取消订单</a>
+				      </td>
+			        </tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<span th:replace="/common/foot :: footer"></span>
+</body>
+</html>

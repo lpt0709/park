@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/moban/css/index.css}"/>
+	<link rel="stylesheet" th:href="@{/moban/css/table.css}"/>
+	<script th:src="@{/moban/js/jquery-1.7.2.min.js}"></script>
+	<script th:src="@{/moban/js/main.js}"></script>
+	<script type="text/javascript" th:src="@{/lib/My97DatePicker/4.8/WdatePicker.js}"></script>
+	<title>查询车位</title>
+</head>
+<body>
+<!--  -->
+<span th:replace="/common/head3 :: header"></span>
+<marquee  direction="left" contextmenu="1324" behavior="scroll"  scrollamount="10" height="40"   bgcolor="pink"  hspace="100" style="padding-top:15px"  vspace="100">
+	<font color="red" style="font-size:18px"><a th:text="${parkTotal}" style="font-size:18px"></a></font>
+</marquee>
+<ul class="select">
+			<li class="select-result">
+				<dl>
+					<dt>筛选条件：</dt>
+					<dd class="select-no">
+						<form action="/car/findCar" method="post" id="findP">
+							<select name="status" onchange="selectPark()" class="form-control">
+								<option th:selected="${status==-1}" value="-1">全部</option>
+								<option th:selected="${status==0}" value="0">可预约</option>
+								<option th:selected="${status==1}" value="1">已预约</option>
+							</select>
+						</form>
+					</dd>
+				</dl>
+			</li>
+		</ul>
+<div class="list-main">
+	<div class="container">
+		<div class="bread" style="font-size:15px" >当前位置：
+			<a href="/index" style="font-size:15px">首页</a> >		
+			<a href="#" style="font-size:15px">公共车位</a>
+		</div>
+		
+		<div class="tabs book clearfix">
+			<dl th:each="car,carStat : ${pubCarList}">
+				<dt><a th:href="@{'/car/detail?id='+${car.id}}">
+				<img th:if="${car.status=='0'}" src="/moban/images/cw.png" alt="可预约" title="可预约"/></a>
+				<img th:if="${car.status=='1'}" src="/moban/images/cw1.png" alt="已预约"  title="已预约"/>
+				<img th:if="${car.status=='2'}" src="/moban/images/cw2.png" alt="已使用"  title="已使用"/>
+				</dt>
+				<dd>
+					<p><a th:href="@{'/car/detail?id='+${car.id}}" th:text="${car.parkNo+'(长'+car.length+'宽'+car.width+')'}"
+					 th:title="${car.parkArea}"></a></p>
+					<p></p>
+					<p th:text="${car.parkArea}" title="月"></p>
+				</dd>
+
+			</dl>
+			<div class="tabs book clearfix">
+			<dl th:each="car1,carStat1 : ${priCarList}">
+				<dt><label>可用时间</label>
+				<input class="f-20 text-success" th:text="${car1.startTime+'-'+car1.endTime}"/>
+				</dt>
+				<dt><a th:href="@{'/car/detail?id='+${car1.id}}">
+				<img th:if="${car1.status=='0'}" src="/moban/images/cw.png" alt="可预约" title="可预约"/></a>
+				<img th:if="${car1.status=='1'}" src="/moban/images/cw1.png" alt="已预约"  title="已预约"/>
+				<img th:if="${car1.status=='2'}" src="/moban/images/cw2.png" alt="已使用"  title="已使用"/>
+				</dt>
+				<dd>
+					<p><a th:href="@{'/car/detail?id='+${car1.id}}" th:text="${car1.parkNo+'(长'+car1.length+'宽'+car1.width+')'}" th:title="${car1.parkArea}"></a></p>
+					<p></p>
+					<p th:text="${car1.parkArea}" title="月"></p>
+				</dd>
+
+			</dl>
+		</div>
+
+	</div>
+</div>
+
+
+<span th:replace="/common/foot :: footer"></span>
+<script type="text/javascript">
+function selectPark(){
+	$("#findP").submit();
+}
+</script>
+</body>
+</html>
